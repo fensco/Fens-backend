@@ -1,78 +1,41 @@
-import express from "express";
-import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import passport from "passport";
-
-// import "src/routes/authentication";
-// // import googleAuth from "src/routes/admin.routes";
-// import jwt from "jsonwebtoken";
-
-import passportGoogleAuth from "passport-google-oauth20";
-const GoogleStrategy = passportGoogleAuth.Strategy;
-
-// import { Admin } from "../src/models/admin.models";
-
-// import "./tokenJWT.controllers";
-dotenv.config();
+// Require necessary modules
+const express = require('express');
+const bodyParser = require('body-parser');
+const swaggerUI = require('swagger-ui-express')
+//Routes
+const loginRoute = require('./routes/open/login');
+const registerRoute = require('./routes/open/signup');
+const schedualsRoute = require('./routes/protected/schedual');
+const usersRoute = require('./routes/protected/users')
+// Call config
+require('dotenv').config();
+// Create an instance of express app
 const app = express();
-const port = process.env.PORT || 3500;
+//DB connectivity
+const connect = require('./models/DB');
+connect();
 
+// Set up middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json())
 
-const passportConfig = {
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3100/google/callback",
-  passReqToCallback: true,
-};
-app.use(passport.initialize());
-// passport.use(Admin.createStrategy());
+//Create home Interface
+app.get('/',(req,res)=>{
+ try {
+    res.status(200).render('welcome')
+ } catch (error) {
+    res.status(500).render('failure') 
+ }
+})
 
-passport.use(
-  new GoogleStrategy(passportConfig, function (
-    request,
-    accessToken,
-    refreshToken,
-    profile,
-    done
-  ) {
-    console.log(profile);
-    done(null, profile);
-  })
-);
+//Set view engine
+app.set('view engine','ejs')
+app.use('/v1/api/login', loginRoute);
+app.use('/v1/api/register', registerRoute);
+app.use('/v1/api/users',usersRoute);
+app.use('/v1/api/scheduals', schedualsRoute);
+app.use('/v1/api-docs', swaggerUI.serve, swaggerUI.setup(require('./swagger')))
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
 
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
-
-// app.use("/auth", googleAuth);
-
-app.get("/", (req, res) => {
-  console.log(`Starting...`);
-});
-
-app.get("/google", passport.authenticate("google", { scope: "profile" }));
-
-app.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }, () => {
-    console.log("Logged in!");
-  })
-);
-
-app.route(
-  "/getDetails",
-  passport.authenticate("jwt_strategy", { session: false }),
-  (req, res) => {
-    console.log(req.user);
-  }
-);
-
-app.listen(port, () => {
-  console.log(`At port ${port}`);
-});
+app.listen(process.env.PORT, () => console.log(`server is running on http://localhost:${process.env.PORT}`))
