@@ -294,12 +294,12 @@ const annotation={
               } 
          
        },
-          "/v1/api/scheduals": {
+          "/v1/api/schedules": {
             "get": {
                "tags": [
-                    "Scheduals"
+                    "schedules"
                ],
-               "summary": "Get all Scheduals",
+               "summary": "Get all schedules",
                     "security": [
                          {
                               "bearerAuth": []
@@ -307,11 +307,11 @@ const annotation={
                     ],
                "responses": {
                     "200": {
-                         "description": "List of Scheduals",
+                         "description": "List of schedules",
                          "content": {
                               "application/json": {
                                    "schema": {
-                                        "$ref": "#/components/schemas/Schedual"
+                                        "$ref": "#/components/schemas/Schedule"
                                    }
                               }
                          }
@@ -320,32 +320,32 @@ const annotation={
           },
           "post": {
                "tags": [
-                    "Scheduals"
+                    "schedules"
                ],
-               "summary": "Add a new Schedual",
+               "summary": "Add a new Schedule",
                "security": [
                     {
                          "bearerAuth": []
                     }
                ],
                "requestBody": {
-                    "description": "Schedual object that needs to be added to the library",
+                    "description": "Schedule object that needs to be added to the library",
                     "required": true,
                     "content": {
                          "application/json": {
                               "schema": {
-                                   "$ref": "#/components/schemas/SchedualInput"
+                                   "$ref": "#/components/schemas/ScheduleInput"
                               }
                          }
                     }
                },
                "responses": {
                     "200": {
-                         "description": "Schedual added successfully",
+                         "description": "Schedule added successfully",
                          "content": {
                               "application/json": {
                                    "schema": {
-                                        "$ref": "#/components/schemas/Schedual"
+                                        "$ref": "#/components/schemas/Schedule"
                                    }
                               }
                          }
@@ -357,12 +357,12 @@ const annotation={
           },
           
      },
-    "/v1/api/scheduals/{id}": {
+    "/v1/api/schedules/{id}": {
      "get": {
           "tags": [
-               "Scheduals"
+               "schedules"
           ],
-          "summary": "Get a Schedual by ID",
+          "summary": "Get a Schedule by ID",
               "security": [
                    {
                         "bearerAuth": []
@@ -372,7 +372,7 @@ const annotation={
                {
                     "name": "id",
                     "in": "path",
-                    "description": "ID of the Schedual to retrieve",
+                    "description": "ID of the Schedule to retrieve",
                     "required": true,
                     "schema": {
                          "type": "string"
@@ -381,25 +381,25 @@ const annotation={
           ],
           "responses": {
                "200": {
-                    "description": "Schedual details",
+                    "description": "Schedule details",
                     "content": {
                          "application/json": {
                               "schema": {
-                                   "$ref": "#/components/schemas/Schedual"
+                                   "$ref": "#/components/schemas/Schedule"
                               }
                          }
                     }
                },
                "404": {
-                    "description": "Schedual not found"
+                    "description": "Schedule not found"
                }
           }
      },
      "put": {
           "tags": [
-               "Scheduals"
+               "schedules"
           ],
-          "summary": "Update a Schedual by ID",
+          "summary": "Update a Schedule by ID",
           "security": [
                {
                     "bearerAuth": []
@@ -409,7 +409,7 @@ const annotation={
                {
                     "name": "id",
                     "in": "path",
-                    "description": "ID of the Schedual to update",
+                    "description": "ID of the Schedule to update",
                     "required": true,
                     "schema": {
                          "type": "string"
@@ -417,29 +417,29 @@ const annotation={
                }
           ],
           "requestBody": {
-               "description": "Schedual object that needs to be updated",
+               "description": "Schedule object that needs to be updated",
                "required": true,
                "content": {
                     "application/json": {
                          "schema": {
-                              "$ref": "#/components/schemas/SchedualInput"
+                              "$ref": "#/components/schemas/ScheduleInput"
                          }
                     }
                }
           },
           "responses": {
                "200": {
-                    "description": "Schedual updated successfully",
+                    "description": "Schedule updated successfully",
                     "content": {
                          "application/json": {
                               "schema": {
-                                   "$ref": "#/components/schemas/Schedual"
+                                   "$ref": "#/components/schemas/Schedule"
                               }
                          }
                     }
                },
                "404": {
-                    "description": "Schedual not found"
+                    "description": "Schedule not found"
                },
                "500": {
                     "description": "Internal server error"
@@ -448,9 +448,9 @@ const annotation={
      },
          "delete": {
               "tags": [
-                   "Scheduals"
+                   "schedules"
               ],
-              "summary": "Delete a Schedual by ID",
+              "summary": "Delete a Schedule by ID",
               "security": [
                    {
                         "bearerAuth": []
@@ -460,7 +460,7 @@ const annotation={
                    {
                         "name": "id",
                         "in": "path",
-                        "description": "ID of the Schedual to delete",
+                        "description": "ID of the Schedule to delete",
                         "required": true,
                         "schema": {
                              "type": "string"
@@ -469,10 +469,10 @@ const annotation={
               ],
               "responses": {
                    "200": {
-                        "description": "Schedual deleted successfully"
+                        "description": "Schedule deleted successfully"
                    },
                    "404": {
-                        "description": "Schedual not found"
+                        "description": "Schedule not found"
                    },
                    "500": {
                         "description": "Internal server error"
@@ -491,7 +491,7 @@ const annotation={
                }
           },
           "schemas": {
-               "Schedual": {
+               "Schedule": {
                     "type": "object",
                     "properties": {
                          "_id": {
@@ -508,7 +508,7 @@ const annotation={
                          },
                          "description": {
                               "type": "string",
-                              "example": "A Schedual to help me to prepare my vaccation"
+                              "example": "A Schedule to help me to prepare my vaccation"
                          }
                     }
                },
@@ -533,7 +533,7 @@ const annotation={
                          }
                     }
                },
-               "SchedualInput": {
+               "ScheduleInput": {
                     "type": "object",
                     "properties": {
                        "title": {
@@ -546,7 +546,7 @@ const annotation={
                          },
                          "description": {
                               "type": "string",
-                              "example": "A Schedual to help me to prepare my vaccation"
+                              "example": "A Schedule to help me to prepare my vaccation"
                          }  
                     }
                },
